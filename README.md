@@ -1,13 +1,27 @@
-# Verbatim ACL Skill
+# Verbatim ACL Plugin
 
-A [Claude Code](https://claude.ai/code) skill for querying 90,000+ academic papers from the [ACL Anthology](https://aclanthology.org/) via [Verbatim RAG](https://verbatim.krlabs.eu).
+A [Claude Code plugin](https://code.claude.com/docs/en/plugins) for querying 90,000+ academic papers from the [ACL Anthology](https://aclanthology.org/) via [Verbatim RAG](https://verbatim.krlabs.eu).
 
-Also includes a general-purpose **Verbatim Transform** — give it any question + context documents and get a verbatim, cited answer. Not limited to ACL papers.
+Also includes a general-purpose **Verbatim Transform** — give it any question + context documents and get a verbatim, cited answer.
 
 ## Install
 
+First add the marketplace:
+
 ```bash
-claude skill add --url https://github.com/adaamko/verbatim-acl-skill
+claude plugin marketplace add https://github.com/adaamko/verbatim-acl-skill
+```
+
+Then install:
+
+```bash
+claude plugin install verbatim-acl
+```
+
+Or test locally without installing:
+
+```bash
+claude --plugin-dir /path/to/verbatim-acl-skill
 ```
 
 ## Setup
@@ -20,21 +34,23 @@ claude skill add --url https://github.com/adaamko/verbatim-acl-skill
 export VERBATIM_API_KEY=vb_your_key_here
 ```
 
-## What You Can Do
+## Commands
 
-Once installed, just ask Claude naturally:
+| Command | Description |
+|---------|-------------|
+| `/verbatim-acl:search` | Search ACL papers, ask research questions, browse authors/venues |
+| `/verbatim-acl:transform` | Verbatim transform any question + context into cited answers |
+
+## Example Usage
 
 **ACL Paper Search:**
-- *"Search for papers about transformer efficiency from 2023"*
-- *"What does the research say about attention mechanisms?"*
-- *"Find papers by Ashish Vaswani"*
-- *"Get the BibTeX citation for that paper"*
-- *"List the top NLP venues in the corpus"*
+- `/verbatim-acl:search papers about transformer efficiency from 2023`
+- `/verbatim-acl:search what does the research say about attention mechanisms?`
 
-**Verbatim Transform (any documents):**
-- *"Read these meeting notes and answer: what were the action items? Cite the sources verbatim."*
-- *"Here are 3 research papers. What do they say about X? Use verbatim citations."*
-- *"Summarize this document with exact quotes as citations."*
+**Verbatim Transform:**
+- `/verbatim-acl:transform what are the main findings?` (with context provided)
+
+Or just ask Claude naturally — it will use the API endpoints from the skill.
 
 ## Available Endpoints
 
@@ -53,6 +69,7 @@ Once installed, just ask Claude naturally:
 - [Verbatim RAG](https://verbatim.krlabs.eu) — The service
 - [API Documentation](https://verbatim.krlabs.eu/docs) — Full API docs
 - [KR Labs](https://krlabs.eu) — Built by KR Labs
+- [Claude Code Plugins](https://code.claude.com/docs/en/plugins) — Plugin documentation
 
 ## License
 
