@@ -1,6 +1,6 @@
 # Verbatim ACL Skill
 
-Search and query 90,000+ ACL Anthology papers with verbatim, cited answers.
+Search and query 90,000+ ACL Anthology papers with verbatim, cited answers. Also provides a general-purpose Verbatim Transform that turns any question + context into a cited, verbatim answer.
 
 ## Setup
 
@@ -19,9 +19,44 @@ All requests require the header: `Authorization: Bearer $VERBATIM_API_KEY`
 
 ---
 
-### Ask a Research Question (RAG Query)
+### Verbatim Transform (General Purpose)
 
-The primary tool. Ask a question and get a verbatim answer with citations to source papers.
+Turn any question + context documents into a verbatim answer with citations. Not limited to ACL papers — works with any text. Use this when you have your own documents/context and want a cited answer.
+
+```bash
+curl -s -X POST "https://verbatim.krlabs.eu/api/transform/verbatim" \
+  -H "Authorization: Bearer $VERBATIM_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "question": "What are the main findings?",
+    "context": [
+      {
+        "content": "The full text of document 1...",
+        "title": "Document Title",
+        "source": "https://example.com/doc1"
+      },
+      {
+        "content": "The full text of document 2...",
+        "title": "Another Document",
+        "source": "https://example.com/doc2"
+      }
+    ]
+  }'
+```
+
+Each context item has:
+- `content` (required): the text to cite from
+- `title` (optional): document title
+- `source` (optional): URL or reference
+- `metadata` (optional): any additional metadata
+
+The response includes a verbatim answer where every claim is backed by a direct quote from the provided context.
+
+---
+
+### Ask a Research Question (ACL RAG Query)
+
+Search the ACL Anthology corpus and get a verbatim answer with citations to source papers.
 
 ```bash
 curl -s -X POST "https://verbatim.krlabs.eu/api/query" \
@@ -131,8 +166,8 @@ curl -s "https://verbatim.krlabs.eu/api/facets?field=year&limit=100" \
 
 ## Usage Notes
 
-- RAG queries (`/api/query`) count towards your monthly quota (50 free, 1000 pro)
+- RAG queries (`/api/query`) and Verbatim Transform (`/api/transform/verbatim`) count towards your monthly quota (50 free, 1000 pro)
 - Search and browse endpoints don't count towards the quota
-- The RAG query may take a few seconds — it performs retrieval + LLM generation
-- Responses include verbatim citations from source papers with highlights
+- Queries may take a few seconds — they perform retrieval + LLM generation
+- Responses include verbatim citations with exact quotes from source documents
 - Use `jq` to parse JSON responses, e.g. `| jq '.answer'`

@@ -2,7 +2,7 @@
 
 A [Claude Code](https://claude.ai/code) skill for querying 90,000+ academic papers from the [ACL Anthology](https://aclanthology.org/) via [Verbatim RAG](https://verbatim.krlabs.eu).
 
-Ask research questions and get verbatim, cited answers. Search papers, browse authors and venues, export BibTeX citations.
+Also includes a general-purpose **Verbatim Transform** — give it any question + context documents and get a verbatim, cited answer. Not limited to ACL papers.
 
 ## Install
 
@@ -24,20 +24,24 @@ export VERBATIM_API_KEY=vb_your_key_here
 
 Once installed, just ask Claude naturally:
 
+**ACL Paper Search:**
 - *"Search for papers about transformer efficiency from 2023"*
 - *"What does the research say about attention mechanisms?"*
 - *"Find papers by Ashish Vaswani"*
 - *"Get the BibTeX citation for that paper"*
 - *"List the top NLP venues in the corpus"*
-- *"What are recent advances in named entity recognition?"*
 
-Claude will use the Verbatim API to search, query, and retrieve papers on your behalf.
+**Verbatim Transform (any documents):**
+- *"Read these meeting notes and answer: what were the action items? Cite the sources verbatim."*
+- *"Here are 3 research papers. What do they say about X? Use verbatim citations."*
+- *"Summarize this document with exact quotes as citations."*
 
 ## Available Endpoints
 
 | Action | Endpoint | Quota |
 |--------|----------|-------|
-| Ask a research question (RAG) | `POST /api/query` | Counts |
+| Verbatim Transform (any context) | `POST /api/transform/verbatim` | Counts |
+| Ask a research question (ACL RAG) | `POST /api/query` | Counts |
 | Search papers | `GET /api/papers/search` | Free |
 | Get paper metadata | `GET /api/papers/{id}` | Free |
 | Get full paper content | `GET /api/papers/{id}/content` | Free |
@@ -52,4 +56,4 @@ Claude will use the Verbatim API to search, query, and retrieve papers on your b
 
 ## License
 
-MIT
+Apache 2.0
